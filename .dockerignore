@@ -1,0 +1,9 @@
+/venv/
+/.idea/
+/*.iml
+/datasets/*.json
+/datasets/*.jsonl
+/*.yaml
+/*.yml
+/outputs/
+/wandb/

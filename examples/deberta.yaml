@@ -1,0 +1,57 @@
+# Model and tokenizer settings
+model_name: "microsoft/deberta-v3-base"
+max_seq_len: 512
+num_labels: 2
+
+# Training settings
+learning_rate: 2e-05
+train_batch_size: 16
+eval_batch_size: 8
+num_epochs: 3
+seed: 42
+
+# Optimizer settings
+optimizer:
+  name: "adam" # can be adam, adamw, adafactor
+  betas: [0.9, 0.999]
+  epsilon: 1e-08
+
+# Learning rate scheduler
+lr_scheduler: "linear"
+warmup_steps: 500
+
+# Dataset settings
+datasets:
+  - ./datasets/bert_dataset.jsonl
+
+# Output and logging
+output_dir: "./outputs/text-classifier"
+logging_dir: "./logs"
+
+# Performance options
+gradient_accumulation_steps: 2
+eval_accumulation_steps: 2
+fp16: true
+bf16: true
+
+# Evaluation strategy
+eval_strategy: "steps"
+eval_steps: 500
+
+# Weights & Biases
+use_wandb: true
+wandb_project: "text-classification"
+
+use_wandb_sweep: false
+wandb_sweep_config:
+  method: 'bayes'
+  metric:
+    name: 'eval_loss'
+    goal: 'minimize'
+  parameters:
+    learning_rate:
+      min: 1e-5
+      max: 5e-5
+
+# Other
+early_stopping_patience: 3

@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "bertrainer"
+version = "0.1.0"
+description = "Train classifiers, chew gum"
+authors = ["Kubernetes Bad <saddleup42069@horsefucker.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.4.0"
+transformers = "^4.44.0"
+datasets = "^2.20.0"
+tqdm = "^4.66.5"
+wandb = "^0.17.6"
+pyyaml = "^6.0.2"
+tokenizers = "^0.19.1"
+sentencepiece = "^0.1.99"
+accelerate = "^0.33.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
