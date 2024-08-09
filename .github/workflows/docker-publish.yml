@@ -21,6 +21,9 @@ jobs:
 
 
     steps:
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
       - name: Check out the repo
         uses: actions/checkout@v2
 
