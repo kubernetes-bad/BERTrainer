@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+env:
+  IMAGE_NAME: ${{ github.repository }}
+  REGISTRY: ghcr.io
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
