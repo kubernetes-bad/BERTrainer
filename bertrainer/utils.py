@@ -16,3 +16,13 @@ class TextDataset(torch.utils.data.Dataset):
             'attention_mask': self.attention_masks[idx],
             'labels': torch.tensor(self.labels[idx])
         }
+
+
+def flatten(input_list):
+    flattened = []
+    for item in input_list:
+        if isinstance(item, list):
+            flattened.extend(flatten(item))
+        else:
+            flattened.append(item)
+    return flattened

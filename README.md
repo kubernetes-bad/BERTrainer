@@ -9,6 +9,7 @@ If you could handle [Axolotl](https://github.com/axolotl-ai-cloud/axolotl), you 
 - Supports BERT, DeBERTa, RoBERTa (probably more)
 - Yaml configs, yay!
 - CUDA, MPS, and CPU are supported
+- Training *and* inference!
 - Weights & Biases Sweeps 🙌
 - Multiple datasets in one training, shuffled
 
@@ -49,5 +50,22 @@ Using BERTrainer is easy, the design is very human. Just follow these steps:
 3. Sit back, watch the graphs, and let the trainer do its magic! ✨
 
 4. Once the training is complete, you'll find your trained model in the specified output directory.
+
+5. For running your model, run `python3 -m bertrainer.serve config.yml` - it will load the model from your `output_directory` and serve on port 8000. Here's an example of a request to that inference endpoint: 
+```bash
+curl --location 'http://localhost:8000/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "text": "Quick brown fox jumps over the lazy dog."
+}'
+```
+And here is an example response: 
+```json
+{
+    "class_0": 0.0005910243489779532,
+    "class_1": 0.9994089603424072
+}
+```
+
 
 Happy training! 🎓✨
