@@ -5,7 +5,10 @@ from transformers import AutoTokenizer
 def load_and_tokenize_data(config):
     datasets = []
     for path in config['datasets']:
-        dataset = load_dataset('json', data_files=path)
+        if path.endswith('.jsonl') or path.endswith('.json'):
+            dataset = load_dataset('json', data_files=path)
+        else:
+            dataset = load_dataset(path)
 
         if isinstance(dataset, dict):
             split = config.get('split', 'train')
