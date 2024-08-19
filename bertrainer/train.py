@@ -119,14 +119,17 @@ def train_model(config):
         seed=config['seed'],
     )
 
-    trainer = Trainer(
+    trainer_args = dict(
         model=model,
         args=training_args,
         train_dataset=tokenized_datasets['train'],
         eval_dataset=tokenized_datasets['validation'],
-        callbacks=[EarlyStoppingCallback(early_stopping_patience=config['early_stopping_patience'])],
         optimizers=(optimizer, lr_scheduler),
     )
+    if 'early_stopping_patience' in config:
+        trainer_args.callbacks = [EarlyStoppingCallback(early_stopping_patience=config['early_stopping_patience'])]
+
+    trainer = Trainer(**trainer_args)
 
     trainer.train()
     model.save_pretrained(f"{config['output_dir']}/final")
