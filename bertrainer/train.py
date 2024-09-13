@@ -6,7 +6,7 @@ from transformers import (
 from torch.optim import Adam, AdamW
 import wandb
 from .data import load_and_tokenize_data
-from .model import get_model
+from .model import get_model, get_tokenizer
 import random
 import numpy as np
 
@@ -76,9 +76,10 @@ def train_model(config):
     print(f"Using device: {device}")
 
     model = get_model(config)
+    tokenizer = get_tokenizer(config)
     model.to(device)
 
-    tokenized_datasets = load_and_tokenize_data(config)
+    tokenized_datasets = load_and_tokenize_data(tokenizer, config)
 
     optimizer = get_optimizer(model, config)
 
@@ -111,9 +112,6 @@ def train_model(config):
         bf16=bf16,
         fp16=fp16,
         learning_rate=config['learning_rate'],
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False,
         gradient_accumulation_steps=config['gradient_accumulation_steps'],
         eval_accumulation_steps=config['eval_accumulation_steps'],
         seed=config['seed'],
@@ -133,6 +131,7 @@ def train_model(config):
 
     trainer.train()
     model.save_pretrained(f"{config['output_dir']}/final")
+    tokenizer.save_pretrained(f"{config['output_dir']}/final")
 
 
 def train(config):

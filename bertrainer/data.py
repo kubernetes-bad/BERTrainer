@@ -1,8 +1,8 @@
-from datasets import load_dataset, concatenate_datasets
-from transformers import AutoTokenizer
+from datasets import load_dataset, concatenate_datasets, IterableDataset, Dataset
+from transformers import PreTrainedTokenizer
 
 
-def load_and_tokenize_data(config):
+def load_and_tokenize_data(tokenizer: PreTrainedTokenizer, config) -> Dataset | IterableDataset:
     datasets = []
     for path in config['datasets']:
         if path.endswith('.jsonl') or path.endswith('.json'):
@@ -19,8 +19,6 @@ def load_and_tokenize_data(config):
     combined_dataset = concatenate_datasets(datasets) if len(datasets) > 1 else datasets[0]
     combined_dataset = combined_dataset.shuffle(seed=config['seed'])
 
-    # TODO: fast tokenizer for roberta is unpredictable with spaces
-    tokenizer = AutoTokenizer.from_pretrained(config['model_name'], use_fast=False, clean_up_tokenization_spaces=True)
     tokenized_datasets = combined_dataset.map(
         lambda examples: tokenizer(examples['text'], padding='max_length', truncation=True, max_length=config['max_seq_len']),
         batched=True

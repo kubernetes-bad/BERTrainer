@@ -2,6 +2,9 @@
 model_name: "microsoft/deberta-v3-base"
 max_seq_len: 512
 num_labels: 2
+labels:
+  0: human
+  1: robot
 
 # Training settings
 learning_rate: 2e-05
